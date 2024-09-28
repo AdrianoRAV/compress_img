@@ -1,0 +1,45 @@
+#from PIL import Image
+#import os
+import time
+
+#def compress_image(input_image_path, output_image_path, quality=5):
+ #   with Image.open(input_image_path) as img:
+ #       img.save(output_image_path, "JPEG", quality=quality)
+
+#compress_image(r'C:\Users\84246626\Documents\Python-Pandas-master\Excel\brazil.jpg', "imagem_comprimida.jpg", quality=5)
+
+from PIL import Image
+import os
+start_time = time.time()  # Inicia o cronômetro
+
+def compress_image(input_image_path, output_image_path, quality=20):
+    with Image.open(input_image_path) as img:
+        img.save(output_image_path, "JPEG", quality=quality)
+
+
+def compress_images_in_folder(folder_path, output_folder_path, quality=20):
+    # Verifica se a pasta de saída existe, se não, cria
+    if not os.path.exists(output_folder_path):
+        os.makedirs(output_folder_path)
+
+    # Loop através dos arquivos na pasta de entrada
+    for filename in os.listdir(folder_path):
+        if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):  # Adicione os formatos desejados
+            input_image_path = os.path.join(folder_path, filename)
+            output_image_path = os.path.join(output_folder_path, filename)
+            compress_image(input_image_path, output_image_path, quality)
+
+
+# Defina o caminho da pasta de origem e da pasta de saída
+folder_path = r'C:\Users\84246626\Documents\Python-Pandas-master\Excel\POIMG'
+output_folder_path = r'C:\Users\84246626\Documents\Python-Pandas-master\Excel\po'
+
+# Chama a função para comprimir as imagens
+compress_images_in_folder(folder_path, output_folder_path, quality=20)
+
+end_time = time.time()  # Para o cronômetro
+elapsed_time = end_time - start_time  # Calcula o tempo gasto
+print(f"Tempo gasto para comprimir a imagem: {elapsed_time:.2f} segundos")
+minutos = elapsed_time / 60
+print(f'tempo em minutos: {minutos}')
+time.sleep(1)
